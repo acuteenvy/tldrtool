@@ -4,7 +4,7 @@
 [![license](https://img.shields.io/github/license/acuteenvy/tldrtool?color=blueviolet)](/LICENSE)
 [![downloads](https://img.shields.io/github/downloads/acuteenvy/tldrtool/total?color=brightgreen)][latest-release]
 
-Automate contributing to [tldr](https://github.com/tldr-pages/tldr).
+`tlt` automatically creates alias pages, generates page templates and wraps `git` to simplify contributing to [tldr-pages](https://github.com/tldr-pages/tldr).
 
 ## Installation
 [![Packaging status](https://repology.org/badge/vertical-allrepos/tldrtool.svg)](https://repology.org/project/tldrtool/versions)

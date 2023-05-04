@@ -102,9 +102,9 @@ pub enum Commands {
     #[command(visible_alias = "u")]
     Update,
 
-    /// Switch between git branches or create a branch from 'main' if it does not exist.
+    /// Show, switch or create git branches.
     #[command(visible_alias = "b")]
-    Branch { branch: String },
+    Branch { branch: Option<String> },
 
     /// Run 'tldr --render' on a page.
     #[command(visible_alias = "v")]

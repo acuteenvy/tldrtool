@@ -136,7 +136,12 @@ pub fn edit(repo_path: &Path, page: &[String], language: &str, platform: &Platfo
     )?)
 }
 
-pub fn branch(branch: &str) -> Result<()> {
+pub fn branch(branch: Option<String>) -> Result<()> {
+    if branch.is_none() {
+        return spawn(&mut cmd!("git", "branch"));
+    }
+    let branch = branch.unwrap();
+
     if is_success(&mut cmd!(
         "git",
         "show-ref",

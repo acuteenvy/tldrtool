@@ -54,7 +54,7 @@ fn run() -> Result<()> {
         Commands::Update => commands::update()?,
         Commands::View { page } => commands::view(&repo.path, &page, &language, &platform)?,
         Commands::Edit { page } => commands::edit(&repo.path, &page, &language, &platform)?,
-        Commands::Branch { branch } => commands::branch(&branch)?,
+        Commands::Branch { branch } => commands::branch(branch)?,
         Commands::PullRequest => commands::pull_request(&repo.fork)?,
         Commands::Add { page, doc_url } => {
             commands::add(&repo.path, &page, &doc_url, &language, &platform)?;

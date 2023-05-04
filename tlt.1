@@ -1,0 +1,92 @@
+.TH "TLDRTOOL" "1" "2023-05-04"  "tldrtool 1.0.0" "tldrtool manual"
+.nh
+.ad l
+.SH NAME
+tldrtool - automate contributing to tldr
+
+
+.SH SYNOPSIS
+\fItlt\fR [OPTIONS] [COMMAND]
+.br
+\fItlt\fR <SHELL_COMMAND> [ARGS]
+
+
+.SH OPTIONS
+.TP 4
+\fB-p, --platform\fR <PLATFORM>
+Specify the platform to use.
+.br
+Can be one of the following: '\fBlinux\fR', '\fBmacos\fR', '\fBosx\fR'
+(alias for '\fBmacos\fR'), '\fBandroid\fR', '\fBsunos\fR', '\fBcommon\fR'.
+.sp
+Default: \fBcommon\fR
+
+.TP 4
+\fB-L, --language\fR <LANGUAGE>
+Specify the language to use.
+.sp
+Default: \fBen\fR
+
+.TP 4
+.B -V, --version
+Print version information.
+
+.TP 4
+.B -h, --help
+Print a help message.
+
+
+.SH COMMANDS
+.TP 4
+\fBadd\fR <PAGE> <DOC_URL>
+Write a page template and open it in \fB$EDITOR\fR.
+
+.TP 4
+\fBalias, al\fR <NEW_PAGE> <ALIAS_OF>
+Create a page alias and open it in \fB$EDITOR\fR.
+
+.TP 4
+\fBtranslate, t\fR <PAGE>
+Copy the English page and open the translation in \fB$EDITOR\fR.
+.br
+Requires specifying \fB--language\fR.
+
+.TP 4
+\fBedit, e\fR <PAGE>
+Open a page in \fB$EDITOR\fR.
+
+.TP 4
+.B update, u
+Update your fork's main branch from upstream and push to GitHub.
+
+.TP 4
+\fBbranch, b\fR [BRANCH]
+Show local git branches (equivalent of \fItlt\fR \fBgit branch\fR).
+.br
+If \fI[BRANCH]\fR is specified, switch between git branches or create a new one from \fBmain\fR if it does not exist.
+
+.TP 4
+\fBview, v\fR <PAGE>
+Run \fItldr\fR \fB--render\fR on a page.
+
+.TP 4
+.B pull-request, pr
+Open a browser to create a pull request to \fBtldr-pages\fR from the current branch.
+
+.TP 4
+.B setup
+Prompt for your fork repository and update the config file.
+
+.TP 4
+.B destroy
+Delete the local repository and the config file.
+
+.TP 4
+.B help
+Print a help message.
+
+
+.SH SEE ALSO
+Repository
+.br
+.B https://github.com/acuteenvy/tldrtool

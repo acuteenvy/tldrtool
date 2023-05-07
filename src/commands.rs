@@ -152,7 +152,7 @@ pub fn branch(branch: Option<String>) -> Result<()> {
         spawn(&mut cmd!("git", "checkout", branch))
     } else {
         infoln!("branch '{branch}' does not exist, creating it...");
-        spawn(&mut cmd!("git", "checkout", "-b", branch))
+        spawn(&mut cmd!("git", "checkout", "-b", branch, "main"))
     }
 }
 

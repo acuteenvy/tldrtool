@@ -118,7 +118,9 @@ pub fn alias(
         )));
     }
 
-    let alias: String = ALIAS_PAGES[language].replace("example", &alias_of);
+    let alias: String = ALIAS_PAGES[language]
+        .replacen("example", &new_page, 1)
+        .replace("example", &alias_of);
 
     infoln!("creating alias ({language}/{platform}): '{new_page}' => '{alias_of}'");
     fs::create_dir_all(new_page_path.parent().unwrap())?;
@@ -211,10 +213,7 @@ pub fn pull_request(fork: &str) -> Result<()> {
         spawn(&mut cmd!("git", "push", "-u", "origin", &branch))?;
     }
 
-    browser(&format!(
-        "https://github.com/tldr-pages/tldr/compare/main...{}:{branch}",
-        fork.replace('/', ":")
-    ))?;
+    browser(&format!("https://github.com/{fork}/pull/new/{branch}"))?;
 
     Ok(())
 }

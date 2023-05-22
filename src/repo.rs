@@ -69,7 +69,10 @@ impl Repository {
 
     pub fn setup_config() -> Result<Self> {
         let mut fork = String::new();
-        print!("Please enter the github path to your fork (username/repo_name): ");
+        writeln!(
+            io::stdout(),
+            "Please enter the github path to your fork (username/repo_name): "
+        )?;
         io::stdout().flush()?;
         io::stdin().read_line(&mut fork)?;
 

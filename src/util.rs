@@ -31,16 +31,24 @@ macro_rules! cmd {
 /// Prints a warning.
 macro_rules! warnln {
     ( $( $arg:tt )*) => {
-        eprint!("{} ", yansi::Paint::new("warning:").fg(yansi::Color::Yellow).bold());
-        eprintln!($($arg)*);
+        {
+            use std::io::Write;
+            let mut lock = std::io::stderr().lock();
+            write!(lock, "{} ", yansi::Paint::new("warning:").fg(yansi::Color::Yellow).bold())?;
+            writeln!(lock, $($arg)*)?;
+        }
     };
 }
 
 /// Prints a status message.
 macro_rules! infoln {
     ( $( $arg:tt )*) => {
-        eprint!("{} ", yansi::Paint::new("info:").fg(yansi::Color::Cyan).bold());
-        eprintln!($($arg)*);
+        {
+            use std::io::Write;
+            let mut lock = std::io::stderr().lock();
+            write!(lock, "{} ", yansi::Paint::new("info:").fg(yansi::Color::Cyan).bold())?;
+            writeln!(lock, $($arg)*)?;
+        }
     };
 }
 
@@ -48,7 +56,8 @@ pub(crate) use {cmd, infoln, warnln};
 
 /// Spawns a child process and returns an error if it fails to spawn or exits with non-zero status.
 pub fn spawn(cmd: &mut Command) -> Result<()> {
-    eprintln!(
+    writeln!(
+        io::stderr(),
         "{} {} {}",
         Paint::new("running:").fg(Color::Blue).bold(),
         cmd.get_program().to_string_lossy(),
@@ -56,7 +65,7 @@ pub fn spawn(cmd: &mut Command) -> Result<()> {
             .map(OsStr::to_string_lossy)
             .collect::<Vec<Cow<str>>>()
             .join(" ")
-    );
+    )?;
 
     let status = cmd
         .spawn()
@@ -77,7 +86,8 @@ pub fn is_success(cmd: &mut Command) -> Result<bool> {
     cmd.stdout(Stdio::null());
     cmd.stderr(Stdio::null());
 
-    eprint!(
+    write!(
+        io::stderr(),
         "{} {} {} ... ",
         Paint::new("checking status:").fg(Color::Magenta).bold(),
         cmd.get_program().to_string_lossy(),
@@ -85,25 +95,26 @@ pub fn is_success(cmd: &mut Command) -> Result<bool> {
             .map(OsStr::to_string_lossy)
             .collect::<Vec<Cow<str>>>()
             .join(" ")
-    );
-    io::stdout().flush()?;
+    )?;
 
     let status = cmd
         .spawn()
         .map_err(|e| Error::ChildProcess(e.to_string()))?
         .wait()?;
     if status.success() {
-        eprintln!(
+        writeln!(
+            io::stderr(),
             "{}",
             Paint::new(status.code().unwrap()).fg(Color::Green).bold()
-        );
+        )?;
 
         Ok(true)
     } else {
-        eprintln!(
+        writeln!(
+            io::stderr(),
             "{}",
             Paint::new(status.code().unwrap()).fg(Color::Red).bold()
-        );
+        )?;
 
         Ok(false)
     }
@@ -111,7 +122,8 @@ pub fn is_success(cmd: &mut Command) -> Result<bool> {
 
 /// Spawns a child process and returns its stdout as a `String`, with the trailing newline stripped.
 pub fn get_output(cmd: &mut Command) -> Result<String> {
-    eprint!(
+    writeln!(
+        io::stderr(),
         "{} {} {} ... ",
         Paint::new("capturing output:").fg(Color::Magenta).bold(),
         cmd.get_program().to_string_lossy(),
@@ -119,8 +131,7 @@ pub fn get_output(cmd: &mut Command) -> Result<String> {
             .map(OsStr::to_string_lossy)
             .collect::<Vec<Cow<str>>>()
             .join(" ")
-    );
-    io::stdout().flush()?;
+    )?;
 
     let output = cmd.output()?;
     let status = output.status;
@@ -129,10 +140,18 @@ pub fn get_output(cmd: &mut Command) -> Result<String> {
         let output_str = str::from_utf8(&output.stdout).unwrap();
         let output_str = output_str.strip_suffix('\n').unwrap_or(output_str);
 
-        eprintln!("{}", Paint::new(&output_str).fg(Color::Green).bold());
+        writeln!(
+            io::stdout(),
+            "{}",
+            Paint::new(&output_str).fg(Color::Green).bold()
+        )?;
         Ok(output_str.to_string())
     } else {
-        eprintln!("{}", Paint::new("ERROR").fg(Color::Red).bold());
+        writeln!(
+            io::stderr(),
+            "{}",
+            Paint::new("ERROR").fg(Color::Red).bold()
+        )?;
         Err(Error::ChildProcess(status.to_string()))
     }
 }

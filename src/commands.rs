@@ -54,7 +54,7 @@ pub fn destroy(repo_path: &Path) -> Result<()> {
         "you {} be able to recover changes that have not been pushed to GitHub",
         Paint::new("WILL NOT").fg(Color::Red).bold()
     );
-    print!("Press Enter to confirm. ");
+    writeln!(io::stdout(), "Press Enter to confirm. ")?;
     io::stdout().flush()?;
     io::stdin().read_line(&mut String::new())?;
 

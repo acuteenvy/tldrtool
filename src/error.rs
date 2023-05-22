@@ -1,4 +1,5 @@
 use std::io;
+use std::io::Write;
 use std::process::exit;
 use std::result::Result as StdResult;
 
@@ -13,7 +14,12 @@ pub enum Error {
 pub type Result<T> = StdResult<T, Error>;
 
 fn error(msg: &str) {
-    eprintln!("{} {msg}", Paint::new("error:").fg(Color::Red).bold());
+    writeln!(
+        io::stderr(),
+        "{} {msg}",
+        Paint::new("error:").fg(Color::Red).bold()
+    )
+    .unwrap_or_default();
 }
 
 impl Error {

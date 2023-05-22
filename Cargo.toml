@@ -1,6 +1,6 @@
 [package]
 name = "tldrtool"
-version = "1.0.0"
+version = "1.0.1"
 description = "Automate contributing to tldr"
 homepage = "https://github.com/acuteenvy/tldrtool"
 repository = "https://github.com/acuteenvy/tldrtool"

@@ -63,8 +63,20 @@ impl Display for Platform {
 )]
 pub struct Cli {
     /// Specify the platform to use [linux, macos/osx, windows, android, sunos, common].
-    #[arg(short, long)]
+    #[arg(short, long, group = "platforms")]
     pub platform: Option<Platform>,
+
+    /// Same as --platform linux.
+    #[arg(short, long, group = "platforms")]
+    pub linux: bool,
+
+    /// Same as --platform macos.
+    #[arg(short, long, group = "platforms")]
+    pub macos: bool,
+
+    /// Same as --platform windows.
+    #[arg(short, long, group = "platforms")]
+    pub windows: bool,
 
     /// Specify the language to use.
     #[arg(short = 'L', long, value_name = "LANGUAGE")]

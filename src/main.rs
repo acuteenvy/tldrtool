@@ -13,7 +13,7 @@ use std::{env, io};
 use clap::Parser;
 use is_terminal::IsTerminal;
 
-use crate::args::{Cli, Commands};
+use crate::args::{Cli, Commands, Platform};
 use crate::consts::MORE_INFORMATION;
 use crate::error::{Error, Result};
 use crate::repo::Repository;
@@ -39,7 +39,15 @@ fn run() -> Result<()> {
 
     env::set_current_dir(&repo.path)?;
 
-    let platform = cli.platform.unwrap_or_default();
+    let platform = if cli.linux {
+        Platform::Linux
+    } else if cli.macos {
+        Platform::OsX
+    } else if cli.windows {
+        Platform::Windows
+    } else {
+        cli.platform.unwrap_or_default()
+    };
     let language = cli.language.unwrap_or("en".to_string());
 
     if !MORE_INFORMATION.contains_key(language.as_str()) {

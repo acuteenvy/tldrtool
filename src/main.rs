@@ -8,10 +8,10 @@ mod error;
 mod repo;
 mod util;
 
-use std::{env, io};
+use std::env;
+use std::io::{self, IsTerminal};
 
 use clap::Parser;
-use is_terminal::IsTerminal;
 
 use crate::args::{Cli, Commands};
 use crate::consts::MORE_INFORMATION;
@@ -27,7 +27,7 @@ fn run() -> Result<()> {
     #[cfg(not(target_os = "windows"))]
     let color_support = true;
 
-    if !color_support || env::var("NO_COLOR").is_ok() || !io::stdout().is_terminal() {
+    if !(color_support && env::var_os("NO_COLOR").is_none() && io::stdout().is_terminal()) {
         yansi::Paint::disable();
     }
 

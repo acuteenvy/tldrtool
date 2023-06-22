@@ -325,7 +325,6 @@ version = "1.0.1"
 dependencies = [
  "clap",
  "dirs",
- "is-terminal",
  "once_cell",
  "yansi",
 ]

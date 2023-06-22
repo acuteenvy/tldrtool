@@ -122,7 +122,7 @@ pub fn is_success(cmd: &mut Command) -> Result<bool> {
 
 /// Spawns a child process and returns its stdout as a `String`, with the trailing newline stripped.
 pub fn get_output(cmd: &mut Command) -> Result<String> {
-    writeln!(
+    write!(
         io::stderr(),
         "{} {} {} ... ",
         Paint::new("capturing output:").fg(Color::Magenta).bold(),

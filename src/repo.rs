@@ -12,13 +12,13 @@ pub struct Repository {
 
 impl Repository {
     fn locate() -> PathBuf {
-        dirs::cache_dir().unwrap().join(clap::crate_name!())
+        dirs::cache_dir().unwrap().join(env!("CARGO_PKG_NAME"))
     }
 
     pub fn locate_config() -> PathBuf {
         dirs::config_dir()
             .unwrap()
-            .join(clap::crate_name!())
+            .join(env!("CARGO_PKG_NAME"))
             .join("fork")
     }
 
